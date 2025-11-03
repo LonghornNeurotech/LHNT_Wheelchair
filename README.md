@@ -16,7 +16,7 @@ The wheelchair project at LHNT aims to build a electronic wheelchair controlled 
 - **Electronics Team**
   - Design the wheelchairs circuit and code to be run on the Arduino Uno.
   - Team Lead: Ibrahim Aksoy
-  - Members:
+  - Members: Aarav Lakdawala
 - **Design Team**
   - Build and design the electronics casing and holdings
   - Team Lead: 
