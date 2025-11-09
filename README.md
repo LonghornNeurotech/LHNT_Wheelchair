@@ -16,15 +16,15 @@ The wheelchair project at LHNT aims to build a electronic wheelchair controlled 
 - **Electronics Team**
   - Design the wheelchairs circuit and code to be run on the Arduino Uno.
   - Team Lead: Ibrahim Aksoy
-  - Members: Aarav Lakdawala
+  - Members: Aarav Lakdawala, Anthony Shoukry, Shreyas Gupta
 - **Design Team**
   - Build and design the electronics casing and holdings
-  - Team Lead: 
-  - Members: 
+  - Team Lead: Maanas Rastogi
+  - Members: Mandy Miau, Sophia Nolan, Akash Vasan
 - **Hardware-Software Integration Team**
   - Ensure the rover can wirelessly communicate with a computer, ensure the reliability of this connection, and code an anti-collision program.
   - Team Lead: Rishik Boddeti
-  - Members: Michael Chung
+  - Members: Michael Chung, Soumyadeep Kundu, Nayyir Ahsan
 
 ## Features
 
