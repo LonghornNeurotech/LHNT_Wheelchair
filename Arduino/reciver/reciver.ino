@@ -26,3 +26,5 @@ void setup()
         } 
         delay(50); 
     }
+
+    //LETS SEE IF THE UPDATES REALLY WORK!!!!!!!
