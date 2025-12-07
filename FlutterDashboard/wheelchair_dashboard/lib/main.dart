@@ -717,16 +717,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _buildChatToggle() {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: _showChat
-              ? const Color(0xFF00FF88)
-              : const Color(0xFF00FFFF).withOpacity(0.3),
-          width: 1,
-        ),
+        borderRadius: BorderRadius.circular(12), // Softer corners
         color: _showChat
-            ? const Color(0xFF00FF88).withOpacity(0.1)
-            : const Color(0xFF0F1329).withOpacity(0.6),
+            ? const Color(0xFF00FFFF) // Active: Bright Cyan
+            : const Color(0xFF1A1F3A), // Inactive: Dark Blue
+        border: Border.all(color: const Color(0xFF00FFFF), width: 2),
+        boxShadow: _showChat
+            ? [
+                BoxShadow(
+                  color: const Color(0xFF00FFFF).withOpacity(0.4),
+                  blurRadius: 12,
+                  spreadRadius: 2,
+                ),
+              ]
+            : [],
       ),
       child: Material(
         color: Colors.transparent,
@@ -736,27 +740,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
               _showChat = !_showChat;
             });
           },
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(12),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 12,
+            ), // Larger touch target
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
-                  Icons.chat_bubble_outline,
-                  size: 14,
-                  color: _showChat
-                      ? const Color(0xFF00FF88)
-                      : const Color(0xFF00FFFF).withOpacity(0.8),
+                  Icons.chat_bubble, // Filled icon
+                  size: 20, // Larger icon
+                  color: _showChat ? Colors.black : const Color(0xFF00FFFF),
                 ),
-                const SizedBox(width: 6),
+                const SizedBox(width: 10),
                 Text(
-                  'AI CHAT',
+                  'AI ASSISTANT', // More friendly name
                   style: TextStyle(
-                    color: _showChat
-                        ? const Color(0xFF00FF88)
-                        : const Color(0xFF00FFFF).withOpacity(0.9),
-                    fontSize: 11,
+                    color: _showChat ? Colors.black : const Color(0xFF00FFFF),
+                    fontSize: 14, // Larger text
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1,
                   ),
@@ -772,34 +775,34 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _buildUnitToggle() {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(12),
+        color: const Color(0xFF1A1F3A),
         border: Border.all(
-          color: const Color(0xFF00FFFF).withOpacity(0.3),
-          width: 1,
+          color: const Color(0xFF00FFFF).withOpacity(0.5),
+          width: 2,
         ),
-        color: const Color(0xFF0F1329).withOpacity(0.6),
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: _toggleUnit,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(12),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
                   Icons.straighten,
-                  size: 14,
-                  color: const Color(0xFF00FFFF).withOpacity(0.8),
+                  size: 20,
+                  color: const Color(0xFF00FFFF),
                 ),
-                const SizedBox(width: 6),
+                const SizedBox(width: 8),
                 Text(
                   _useCentimeters ? 'CM' : 'IN',
-                  style: TextStyle(
-                    color: const Color(0xFF00FFFF).withOpacity(0.9),
-                    fontSize: 11,
+                  style: const TextStyle(
+                    color: Color(0xFF00FFFF),
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1,
                   ),
@@ -825,28 +828,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 8,
+          ), // Larger padding
           decoration: BoxDecoration(
-            border: Border.all(color: accentColor.withOpacity(0.3), width: 1),
-            borderRadius: BorderRadius.circular(8),
-            color: const Color(0xFF0F1329).withOpacity(0.6),
-            boxShadow: [
-              BoxShadow(
-                color: accentColor.withOpacity(0.1),
-                blurRadius: 8,
-                spreadRadius: 1,
-              ),
-            ],
+            border: Border.all(color: accentColor, width: 2), // Thicker border
+            borderRadius: BorderRadius.circular(12),
+            color: const Color(0xFF1A1F3A),
           ),
-          constraints: const BoxConstraints(minWidth: 120, maxWidth: 300),
+          constraints: const BoxConstraints(minWidth: 150, maxWidth: 350),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: dropdownValue,
               hint: Text(
-                _availablePorts.isEmpty ? 'NO PORTS' : 'SELECT PORT',
+                _availablePorts.isEmpty ? 'NO PORTS FOUND' : 'SELECT DEVICE',
                 style: TextStyle(
                   color: accentColor.withOpacity(0.7),
-                  fontSize: 11,
+                  fontSize: 14, // Larger text
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1,
                 ),
@@ -854,10 +853,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               dropdownColor: const Color(0xFF0F1329),
               iconEnabledColor: accentColor,
               iconDisabledColor: accentColor.withOpacity(0.3),
+              iconSize: 30, // Larger icon
               isExpanded: true,
               style: TextStyle(
                 color: accentColor,
-                fontSize: 11,
+                fontSize: 14, // Larger text
                 fontWeight: FontWeight.w500,
                 letterSpacing: 0.5,
               ),
@@ -868,8 +868,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       child: Text(
                         '${port['name']} - ${port['description']}',
                         style: TextStyle(
-                          color: const Color(0xFF00FFFF).withOpacity(0.9),
-                          fontSize: 11,
+                          color: const Color(0xFF00FFFF),
+                          fontSize: 14,
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),

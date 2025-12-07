@@ -1,6 +1,10 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:record/record.dart';
 import '../services/llm_service.dart';
+import '../services/tts_service.dart';
 
 class ChatWidget extends StatefulWidget {
   const ChatWidget({super.key});
@@ -13,8 +17,12 @@ class _ChatWidgetState extends State<ChatWidget> {
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   final LLMService _llmService = LLMService();
+  final TTSService _ttsService = TTSService();
+  final AudioRecorder _audioRecorder = AudioRecorder();
+
   final List<Message> _history = [];
   bool _isLoading = false;
+  bool _isRecording = false;
   String? _currentStreamingMessage;
 
   @override
@@ -26,6 +34,104 @@ class _ChatWidgetState extends State<ChatWidget> {
         content: 'Connected to Gemini 2.0 Flash Lite. Ready to chat!',
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _scrollController.dispose();
+    _audioRecorder.dispose();
+    _ttsService.stop();
+    super.dispose();
+  }
+
+  Future<void> _startRecording() async {
+    try {
+      if (await _audioRecorder.hasPermission()) {
+        final directory = await getTemporaryDirectory();
+        final path = '${directory.path}/temp_audio.wav';
+
+        await _audioRecorder.start(
+          const RecordConfig(encoder: AudioEncoder.wav),
+          path: path,
+        );
+
+        setState(() {
+          _isRecording = true;
+        });
+      }
+    } catch (e) {
+      debugPrint('Error starting recording: $e');
+    }
+  }
+
+  Future<void> _stopRecording() async {
+    try {
+      final path = await _audioRecorder.stop();
+      setState(() {
+        _isRecording = false;
+      });
+
+      if (path != null) {
+        final file = File(path);
+        final bytes = await file.readAsBytes();
+        _sendAudioMessage(bytes);
+      }
+    } catch (e) {
+      debugPrint('Error stopping recording: $e');
+    }
+  }
+
+  Future<void> _sendAudioMessage(List<int> audioBytes) async {
+    if (_isLoading) return;
+
+    setState(() {
+      _history.add(
+        Message(role: MessageRole.user, content: '🎤 [Audio Message]'),
+      );
+      _isLoading = true;
+      _currentStreamingMessage = '';
+    });
+    _scrollToBottom();
+
+    try {
+      final stream = _llmService.streamAudioChat(audioBytes);
+      String fullResponse = '';
+
+      await for (final chunk in stream) {
+        if (mounted) {
+          fullResponse += chunk;
+          setState(() {
+            _currentStreamingMessage = (_currentStreamingMessage ?? '') + chunk;
+          });
+          _scrollToBottom();
+        }
+      }
+
+      if (mounted) {
+        setState(() {
+          _history.add(
+            Message(
+              role: MessageRole.assistant,
+              content: _currentStreamingMessage ?? '',
+            ),
+          );
+          _currentStreamingMessage = null;
+          _isLoading = false;
+        });
+
+        // Speak the response
+        _ttsService.speak(fullResponse);
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _history.add(Message(role: MessageRole.system, content: 'Error: $e'));
+          _isLoading = false;
+          _currentStreamingMessage = null;
+        });
+      }
+    }
   }
 
   Future<void> _sendMessage(String text) async {
@@ -248,6 +354,40 @@ class _ChatWidgetState extends State<ChatWidget> {
                           ),
                         )
                       : const Icon(Icons.send, color: Color(0xFF00FFFF)),
+                ),
+                const SizedBox(width: 8),
+                GestureDetector(
+                  onLongPressStart: (_) => _startRecording(),
+                  onLongPressEnd: (_) => _stopRecording(),
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: _isRecording
+                          ? const Color(0xFFFF0040).withOpacity(0.2)
+                          : const Color(0xFF00FFFF).withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: _isRecording
+                            ? const Color(0xFFFF0040)
+                            : const Color(0xFF00FFFF).withOpacity(0.3),
+                      ),
+                      boxShadow: _isRecording
+                          ? [
+                              BoxShadow(
+                                color: const Color(0xFFFF0040).withOpacity(0.4),
+                                blurRadius: 10,
+                                spreadRadius: 2,
+                              ),
+                            ]
+                          : [],
+                    ),
+                    child: Icon(
+                      Icons.mic,
+                      color: _isRecording
+                          ? const Color(0xFFFF0040)
+                          : const Color(0xFF00FFFF),
+                    ),
+                  ),
                 ),
               ],
             ),

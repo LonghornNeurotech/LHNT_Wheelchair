@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 class LLMService {
@@ -19,6 +20,30 @@ class LLMService {
   /// Sets the API Key (No-op now as it is hardcoded)
   void setApiKey(String key) {
     // No-op
+  }
+
+  /// Streams a chat response with audio input
+  Stream<String> streamAudioChat(List<int> audioBytes) async* {
+    if (_model == null || _chat == null) {
+      yield 'Error: Model not initialized.';
+      return;
+    }
+
+    try {
+      final content = Content.multi([
+        TextPart('Please listen to this audio and respond.'),
+        DataPart('audio/wav', Uint8List.fromList(audioBytes)),
+      ]);
+
+      final response = _chat!.sendMessageStream(content);
+      await for (final chunk in response) {
+        if (chunk.text != null) {
+          yield chunk.text!;
+        }
+      }
+    } catch (e) {
+      yield 'Error: $e';
+    }
   }
 
   /// Streams a chat response
