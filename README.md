@@ -20,7 +20,7 @@ The wheelchair project at LHNT aims to build a electronic wheelchair controlled 
 - **Design Team**
   - Build and design the electronics casing and holdings
   - Team Lead: Maanas Rastogi
-  - Members: Mandy Miau, Sophia Nolan, Akash Vasan, Kashvika Thurvas Ratheesh, Ashwin Harirama
+  - Members: Mandy Miau, Sophia Nolan, Akash Vasan, Kashvika Thurvas Ratheesh, Ashwin Harirama, Aida Alyasin
 - **Hardware-Software Integration Team**
   - Ensure the rover can wirelessly communicate with a computer, ensure the reliability of this connection, and code an anti-collision program.
   - Team Lead: Rishik Boddeti
