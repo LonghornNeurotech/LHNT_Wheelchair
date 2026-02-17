@@ -1,4 +1,4 @@
-# Longhorn Neurotech Rover Project
+# Longhorn Neurotech Wheelchair Project
 ### [To LHNT Hardware](https://github.com/SeanOmodon/LHNT_Hardware)
 ## Table of Contents
 
