@@ -9,20 +9,20 @@
 
 ## Project Overview
 
-The wheelchair project at LHNT aims to build a electronic wheelchair controlled by EEG, and EMG, combining efforts from the electronics, design, and hardware-software integration teams. The wheelchair will have 5 degrees of freedom: stopped, moving forward, backward, turning left or right. It will communicate wirelessly with a computer that determines its movements. Ultimately, the wheelchair will provide accessible motion, controlled entirely by the user's neural data.
+The wheelchair project at LHNT aims to build an electronic wheelchair controlled wirelessly by a joystick, EEG, and EMG, combining efforts from the electronics, design, and hardware-software integration teams. The wheelchair will have 5 degrees of freedom: stopped, moving forward, backward, turning left or right. Ultimately, the wheelchair will provide accessible motion, controlled entirely by the user's neural data.
 
 ## Team
 
 - **Electronics Team**
-  - Design the wheelchairs circuit and code to be run on the Arduino Uno.
+  - Design the wheelchairs circuit and code to be run on the ESP32.
   - Team Lead: Ibrahim Aksoy
   - Members: Aarav Lakdawala, Anthony Shoukry, Shreyas Gupta, Roman Gonzales
 - **Design Team**
-  - Build and design the electronics casing and holdings
+  - Build and design the electronics casing and housing, and modify the prebuilt normal wheelchair.
   - Team Lead: Maanas Rastogi
   - Members: Mandy Miau, Sophia Nolan, Kashvika Thurvas Ratheesh, Ashwin Harirama, Aida Alyasin, Misha Pipchenko, Aadi Gupta, Sara Ahmed
 - **Hardware-Software Integration Team**
-  - Ensure the rover can wirelessly communicate with a computer, ensure the reliability of this connection, and code an anti-collision program.
+  - Ensure the rover can wirelessly communicate with a computer, EEG, and EMG, ensure the reliability of this connection, and code an anti-collision program.
   - Team Lead: Rishik Boddeti
   - Members: Michael Chung, Soumyadeep Kundu, Nayyir Ahsan, Johnathan Simon
 
