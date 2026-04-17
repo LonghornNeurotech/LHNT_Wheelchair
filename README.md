@@ -27,12 +27,19 @@ The wheelchair project at LHNT aims to build a electronic wheelchair controlled 
   - Members: Michael Chung, Soumyadeep Kundu, Nayyir Ahsan, Johnathan Simon
 
 ## Features
+  1. #### Wireless Communication using WiFi
+     - Using ESP32s the joystick controls the motors wirelessly
+     - A laptop and also be connected to control the motors
+  2. #### 5 Degress of Freedcom
+     -  Stopped, moving forward, backward, turning left or right
 
 ### Implemented Features
-
+  - Ultrasound distance detection with UI to prevent collisions
+  - Joystick control
 
 ### Planned Features
-
+  - EEG, EMG, and voice control
+  - LiDAR autopathing
 
 ## Controls
 0 - Stop
