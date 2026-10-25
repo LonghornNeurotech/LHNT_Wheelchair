@@ -1,7 +1,7 @@
 // --- Pin Definitions ---
 // Joystick
-#define VRX A5
-#define VRY A4
+#define VRX 32
+#define VRY 33
 
 // Motor A (Left)
 #define IN1 10
